@@ -1,0 +1,20 @@
+#!/bin/bash -l
+#SBATCH -t 24:00:00
+#SBATCH -N 1
+#SBATCH --ntasks=20
+#SBATCH --mem=60G
+#SBATCH --job-name tumorQTL
+#SBATCH -o /scratch.global/soren944/tumorQTL/tumorQTL.%j.o
+#SBATCH -e /scratch.global/soren944/tumorQTL/tumorQTL.%j.e
+#SBATCH --mail-user soren944@umn.edu
+#SBATCH --mail-type ALL
+
+
+
+module load R/4.3.0-openblas-rocky8 
+export home=/scratch.global/soren944/tumorQTL/
+export prefix=JPtumor
+
+cd $home
+
+Rscript eQTL_analysis_pipeline_version.R -g $prefix -b $prefix\_normalized.expression.bed.gz -p $prefix -o $home -c $prefix\_covariates_final.txt -i P
